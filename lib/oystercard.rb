@@ -1,22 +1,52 @@
+
+
 class Oystercard
+	MAX_BALANCE = 90
+  MIN_FARE = 1
+	attr_reader :balance, :max_balance, :entry_station, :card_journeys, :exit_station
 
-  INITIAL_BALANCE = 0
-  MAX_BALANCE = 90
-  MAX_BAL_ERR = "Maximum balance is £#{MAX_BALANCE}"
 
-  attr_reader :balance
 
-  def initialize
-    @balance = INITIAL_BALANCE
+	def initialize(max_balance=MAX_BALANCE)
+		@balance = 0
+		@max_balance = max_balance
+    @card_journeys = [Journey.new]
+	end
+
+	def top_up(amount)
+		fail "Can't top up over £#{max_balance}" if @balance + amount > max_balance
+		@balance += amount
+	end
+
+
+  def touch_in(station)
+   # raise "card already in journey" if in_journey?
+   fail "not enough money on the card min balance of £#{MIN_FARE}" if @balance < MIN_FARE
+	    deduct_fare(last_journey.fare) if !last_journey.complete?
+			@card_journeys << Journey.new
+
+			last_journey.start(station)
   end
 
-  def top_up amount
-    raise MAX_BAL_ERR if top_up_too_large? amount
-    @balance += amount
+  def touch_out(station)
+		@card_journeys << Journey.new if !last_journey.en_route?
+		last_journey.finish(station)
+		deduct_fare(last_journey.fare)
+  end
+private
+	def last_journey
+		@card_journeys.last
+	end
+
+  def deduct_fare fare
+    @balance -= fare
   end
 
-  private
-  def top_up_too_large? amount
-    (balance + amount) > MAX_BALANCE
+  def view_log
+    last_journey.current_journey
   end
+  def view_journey_status
+    last_journey.en_route?
+  end
+
 end
