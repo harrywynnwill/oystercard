@@ -1,28 +1,28 @@
 class Journey
   PENALTY_FARE = 6
   MIN_FARE = 1
-  attr_reader :entry_station, :exit_station, :journeys
+  attr_reader :entry_station, :exit_station, :current_journey
 
   def initialize
-  @journeys={}
+  @current_journey={}
   end
   def start(station)
   #  @entry_station = station
-    @journeys[:entry_station]=station
+    @current_journey[:entry_station]=station
   end
 
   def finish(station)
   #  @exit_station=station
-    @journeys[:exit_station]=station
+    @current_journey[:exit_station]=station
   end
 
   def complete?
-      (journeys.has_key?(:entry_station) && journeys.has_key?(:exit_station)) || journeys.empty?
-    # (@exit_station && @entry_station) || journeys.empty?
+      (current_journey.has_key?(:entry_station) && current_journey.has_key?(:exit_station)) || current_journey.empty?
+    # (@exit_station && @entry_station) || current_journey.empty?
   end
 
   def en_route?
-     journeys.has_key?(:entry_station) && !journeys.has_key?(:exit_station)
+     current_journey.has_key?(:entry_station) && !current_journey.has_key?(:exit_station)
   end
 
   def fare

@@ -31,7 +31,7 @@ describe Journey do
 
      journey.start(station)
      journey.finish(other_station)
-     expect(journey.journeys).to include double_journey
+     expect(journey.current_journey).to include double_journey
   end
 
 

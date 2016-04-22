@@ -50,17 +50,17 @@ let (:exit_station) {double :exit_station}
       #   card.deduct_fare(49.50)
       #   expect{card.touch_in}.to raise_error "not enough money on the card min balance of £#{Oystercard::MIN_FARE}"
       # end
-      it "stores the station we pass" do
-        card.touch_in(entry_station)
-        expect(card.entry_station).to eq entry_station
-      end
+      # it "stores the station we pass" do
+      #   card.touch_in(entry_station)
+      #   expect(card.entry_station).to eq entry_station
+      # end
 
     describe '#touch_out' do
       before{card.touch_in(entry_station)}
-      it "touches out" do
-        card.touch_out(exit_station)
-        expect(card.in_journey?).to be_falsey
-      end
+      # it "touches out" do
+      #   card.touch_out(exit_station)
+      #   expect(card.in_journey?).to be_falsey
+      # end
       it "deducts minimum fare" do
         expect{card.touch_out(exit_station)}.to change{card.balance}.by(-Oystercard::MIN_FARE)
       end

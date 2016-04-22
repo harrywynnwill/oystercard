@@ -23,20 +23,7 @@ describe "FEATURE TEST" do
     #     expect {card.deduct_fare(45)}.to raise_error "Not enough credit on card"
     #     expect(card.balance).to eq 40
     # end
-      describe "card Touchs in and out" do
-        before {card.top_up(50)}
-        before {card.touch_in(entry_station)}
-        it "touches in" do
-        expect(card).to be_in_journey
-        expect{card.touch_in(entry_station)}.to raise_error "card already in journey"
-        end
-        it "touches out" do
-        card.touch_out(exit_station)
-        expect(card).not_to be_in_journey
-        expect{card.touch_out(exit_station)}.to raise_error "card not in journey"
-      end
 
-    end
       describe "card should have a minimum amount" do
         it "should have a minimum of £#{Oystercard::MIN_FARE} on the card" do
           expect{card.touch_in(entry_station)}.to raise_error "not enough money on the card min balance of £#{Oystercard::MIN_FARE}"
@@ -49,13 +36,7 @@ describe "FEATURE TEST" do
         expect{card.touch_out(exit_station)}.to change{card.balance}.by(-Oystercard::MIN_FARE)
       end
     end
-      describe "card Rememebers the station on touch in" do
-       it "stores the station when you touch in" do
-        card.top_up(50)
-        card.touch_in(entry_station)
-        expect(card.entry_station).to eq entry_station
-      end
-    end
+
       # describe "card stores the journey history" do
       #   it "it stores the journey history" do
       #     card.top_up(50)
@@ -67,10 +48,7 @@ describe "FEATURE TEST" do
   end
     describe "Station" do
 
-      it "has a name and a zone" do
-        expect(station_with_args.name).to eq("Old Street")
-       expect(station_with_args.zone).to eq(1)
-    end
+
   end
   #     describe "Journey" do
   #       it 'deducts a penalty charge if you do not touch out on a journey'  do
